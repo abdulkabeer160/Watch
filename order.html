@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order | Mughal Watches</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <header>
+    <div class="logo">⌚ MUGHAL WATCHES</div>
+    <nav><a href="./index.html">← Back</a></nav>
+  </header>
+
+  <section class="order">
+    <h2>Place Your Order</h2>
+    <p class="sub">Fill in your details and we will confirm your order on WhatsApp.</p>
+
+    <div class="form">
+      <select id="watch">
+        <option>Classic Gold - Rs. 2,500</option>
+        <option>Silver Steel - Rs. 3,300</option>
+        <option>Black Sport - Rs. 3,800</option>
+        <option>Rose Elegant - Rs. 4,200</option>
+      </select>
+      <input type="text" id="name" placeholder="Full Name">
+      <input type="tel" id="phone" placeholder="Phone Number">
+      <input type="text" id="city" placeholder="City">
+      <textarea id="address" placeholder="Complete Address"></textarea>
+      <select id="qty">
+        <option value="1">Quantity: 1</option>
+        <option value="2">Quantity: 2</option>
+        <option value="3">Quantity: 3</option>
+      </select>
+      <button id="send">Confirm Order on WhatsApp</button>
+      <p id="error"></p>
+    </div>
+  </section>
+
+  <footer>© 2026 Mughal Watches. All rights reserved.</footer>
+
+  <script>
+    var params = new URLSearchParams(window.location.search);
+    var chosen = params.get("watch");
+    var select = document.getElementById("watch");
+
+    if (chosen) {
+      for (var i = 0; i < select.options.length; i++) {
+        if (select.options[i].text.indexOf(chosen) === 0) {
+          select.selectedIndex = i;
+        }
+      }
+    }
+
+    document.getElementById("send").addEventListener("click", function () {
+      var name = document.getElementById("name").value.trim();
+      var phone = document.getElementById("phone").value.trim();
+      var city = document.getElementById("city").value.trim();
+      var address = document.getElementById("address").value.trim();
+      var qty = document.getElementById("qty").value;
+
+      if (!name || !phone || !city || !address) {
+        document.getElementById("error").textContent = "Please fill in all fields.";
+        return;
+      }
+      document.getElementById("error").textContent = "";
+
+      var msg = "New Order\n" +
+        "Watch: " + select.value + "\n" +
+        "Quantity: " + qty + "\n" +
+        "Name: " + name + "\n" +
+        "Phone: " + phone + "\n" +
+        "City: " + city + "\n" +
+        "Address: " + address;
+
+      window.open("https://wa.me/923360497683?text=" + encodeURIComponent(msg), "_blank");
+    });
+  </script>
+
+</body>
+</html>
