@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mughal Watches | Timeless Craftsmanship</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<div id="intro">
+  <div class="i-logo">MUGHAL</div>
+  <div class="i-sub">WATCHES</div>
+  <div class="i-line"></div>
+</div>
+
+<header>
+  <div class="logo">MUGHAL</div>
+  <nav>
+    <a href="#collection">Collection</a>
+    <a href="#why">Why Us</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="txt">
+    <p class="eyebrow">THE 2026 COLLECTION</p>
+    <h1>Time, <span>Perfectly</span> Defined</h1>
+    <p class="lead">Refined design. Everyday durability. Watches made to be worn with confidence.</p>
+    <div class="btns">
+      <a class="btn" href="#collection">Explore the Collection</a>
+      <a class="btn ghost" href="#contact">Contact Us</a>
+    </div>
+  </div>
+
+  <div class="show">
+    <div class="stage hero-stage">
+      <div class="sway"><div id="rot"><div class="watch" id="heroWatch" data-style="gold"></div><img id="heroPhoto" class="hero-photo" alt=""></div></div>
+    </div>
+    <div class="pick">
+      <h3 id="pName"></h3>
+      <div class="price" id="pPrice"></div>
+      <a class="buy" id="pBuy" href="#">Order Now</a>
+      <p class="hint">Drag to rotate</p>
+    </div>
+  </div>
+</section>
+
+<section class="strip">
+  <div><b>5</b><span>Signature Designs</span></div>
+  <div><b>COD</b><span>Cash on Delivery</span></div>
+  <div><b>PK</b><span>Nationwide Delivery</span></div>
+</section>
+
+<section id="collection">
+  <p class="eyebrow reveal">OUR WATCHES</p>
+  <h2 class="reveal">The Collection</h2>
+  <div class="grid reveal" id="grid"></div>
+</section>
+
+<section id="why" class="why">
+  <p class="eyebrow reveal">THE MUGHAL PROMISE</p>
+  <h2 class="reveal">Why Choose Us</h2>
+  <div class="grid reveal">
+    <div class="box"><i>01</i><h3>Nationwide Delivery</h3><p>Fast and secure shipping across Pakistan.</p></div>
+    <div class="box"><i>02</i><h3>Cash on Delivery</h3><p>Inspect your watch, then pay.</p></div>
+    <div class="box"><i>03</i><h3>Quality Checked</h3><p>Every watch is checked before dispatch.</p></div>
+  </div>
+</section>
+
+<section id="contact" class="cta">
+  <h2 class="reveal">Own a Piece of Time</h2>
+  <p class="reveal">Questions about an order or a product? Our team is happy to help.</p>
+  <a class="btn reveal" href="https://wa.me/92XXXXXXXXXX">Chat on WhatsApp</a>
+</section>
+
+<footer>© 2026 Mughal Watches. All rights reserved.</footer>
+
+<script>
+/* ===== YAHAN SE NAYI WATCH ADD KARO (har watch ki 1 line) ===== */
+/* Photo lagani ho to line ke aakhir mein ye add karo:  , img:'PHOTO-LINK-YAHAN'  */
+var watches = [
+  {name:'Classic Gold', desc:'Gold-tone dial, genuine leather strap', price:'Rs. 2,500', style:'gold'},
+  {name:'Silver Steel', desc:'Stainless steel bracelet, water resistant', price:'Rs. 3,300', style:'silver'},
+  {name:'Black Sport', desc:'Bold sport design with date display', price:'Rs. 3,800', style:'black'},
+  {name:'Rose Elegant', desc:'Slim, elegant design for women', price:'Rs. 4,200', style:'rose'},
+  {name:'Royal Blue', desc:'Blue dial, steel strap', price:'Rs. 5,000', style:'silver'}
+];
+/* ===== YAHAN TAK ===== */
+
+var grid = document.getElementById('grid');
+var hero = document.getElementById('heroWatch');
+var rot = document.getElementById('rot');
+var ry = 0, rx = 0, down = false, lx = 0, ly = 0, timer;
+
+function orderLink(name) { return './order.html?watch=' + encodeURIComponent(name); }
+
+function selectWatch(i) {
+  var w = watches[i];
+  var photo = document.getElementById('heroPhoto');
+  if (w.img) {
+    photo.src = w.img;
+    photo.alt = w.name;
+    photo.style.display = 'block';
+    hero.style.display = 'none';
+  } else {
+    photo.style.display = 'none';
+    hero.style.display = '';
+    hero.setAttribute('data-style', w.style);
+  }
+  document.getElementById('pName').textContent = w.name;
+  document.getElementById('pPrice').textContent = w.price;
+  document.getElementById('pBuy').href = orderLink(w.name);
+  ry = 0; rx = 0;
+  rot.style.transform = '';
+}
+
+watches.forEach(function (w, i) {
+  var c = document.createElement('div');
+  c.className = 'card';
+  c.innerHTML =
+    (w.img ? '<div class="photo"><img src="' + w.img + '" alt="' + w.name + '"></div>' : '<div class="stage"><div class="watch" data-style="' + w.style + '"></div></div>') +
+    '<h3>' + w.name + '</h3><p>' + w.desc + '</p>' +
+    '<div class="tap">Tap to view in 3D</div>' +
+    '<div class="price">' + w.price + '</div>' +
+    '<a class="buy" href="' + orderLink(w.name) + '">Order Now</a>';
+  c.addEventListener('click', function (e) {
+    if (e.target.closest('.buy')) return;
+    selectWatch(i);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  grid.appendChild(c);
+});
+
+document.querySelectorAll('.watch').forEach(function (w) {
+  var t = '';
+  for (var i = 0; i < 60; i++) {
+    t += '<i class="tick' + (i % 5 === 0 ? ' big' : '') + '" style="transform:rotate(' + (i * 6) + 'deg)"></i>';
+  }
+  w.innerHTML =
+    '<div class="strap top"></div><div class="strap bot"></div>' +
+    '<div class="case">' +
+      '<div class="layer back"></div>' +
+      '<div class="crown"></div><div class="push p1"></div><div class="push p2"></div>' +
+      '<div class="layer bezel"></div>' +
+      '<div class="layer dial">' + t +
+        '<div class="brand">MUGHAL</div>' +
+        '<div class="auto">AUTOMATIC</div>' +
+        '<div class="date"><b>' + new Date().getDate() + '</b></div>' +
+        '<div class="hand h"></div><div class="hand m"></div><div class="hand s"></div>' +
+        '<div class="pin"></div>' +
+      '</div>' +
+      '<div class="layer glass"></div>' +
+    '</div>';
+});
+
+function clock() {
+  var d = new Date(), s = d.getSeconds(), m = d.getMinutes(), h = d.getHours() % 12;
+  document.querySelectorAll('.hand.h').forEach(function (e) { e.style.transform = 'rotate(' + ((h + m / 60) * 30) + 'deg)'; });
+  document.querySelectorAll('.hand.m').forEach(function (e) { e.style.transform = 'rotate(' + ((m + s / 60) * 6) + 'deg)'; });
+  document.querySelectorAll('.hand.s').forEach(function (e) { e.style.transform = 'rotate(' + (s * 6) + 'deg)'; });
+}
+clock();
+setInterval(clock, 1000);
+
+/* Drag to rotate */
+var stage = document.querySelector('.hero-stage');
+var sway = document.querySelector('.sway');
+
+stage.addEventListener('pointerdown', function (e) {
+  down = true; lx = e.clientX; ly = e.clientY;
+  sway.classList.add('drag'); rot.classList.add('drag');
+  clearTimeout(timer);
+  try { stage.setPointerCapture(e.pointerId); } catch (x) {}
+});
+stage.addEventListener('pointermove', function (e) {
+  if (!down) return;
+  ry += (e.clientX - lx) * 0.7;
+  rx -= (e.clientY - ly) * 0.5;
+  rx = Math.max(-60, Math.min(60, rx));
+  if (hero.style.display === 'none') { ry = Math.max(-35, Math.min(35, ry)); rx = Math.max(-20, Math.min(20, rx)); }
+  lx = e.clientX; ly = e.clientY;
+  rot.style.transform = 'rotateY(' + ry + 'deg) rotateX(' + rx + 'deg)';
+});
+function release() {
+  if (!down) return;
+  down = false;
+  rot.classList.remove('drag');
+  timer = setTimeout(function () {
+    sway.classList.remove('drag');
+    rx = 0; ry = Math.round(ry / 360) * 360;
+    rot.style.transform = 'rotateY(' + ry + 'deg) rotateX(0deg)';
+  }, 2500);
+}
+stage.addEventListener('pointerup', release);
+stage.addEventListener('pointercancel', release);
+
+selectWatch(0);
+
+/* Card tilt */
+document.querySelectorAll('.card').forEach(function (el) {
+  el.addEventListener('pointermove', function (e) {
+    var r = el.getBoundingClientRect();
+    var x = (e.clientX - r.left) / r.width - 0.5;
+    var y = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = 'perspective(900px) rotateY(' + (x * 12) + 'deg) rotateX(' + (-y * 12) + 'deg)';
+  });
+  el.addEventListener('pointerleave', function () { el.style.transform = ''; });
+});
+
+/* Scroll reveal */
+if ('IntersectionObserver' in window) {
+  var io = new IntersectionObserver(function (items) {
+    items.forEach(function (i) {
+      if (i.isIntersecting) { i.target.classList.add('in'); io.unobserve(i.target); }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(function (e) { io.observe(e); });
+} else {
+  document.querySelectorAll('.reveal').forEach(function (e) { e.classList.add('in'); });
+}
+</script>
+</body>
+  </html>
